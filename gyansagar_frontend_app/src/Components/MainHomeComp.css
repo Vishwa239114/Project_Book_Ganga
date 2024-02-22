@@ -1,0 +1,14 @@
+#bookcard:hover {
+    
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.589), 0 6px 20px 0 rgba(0, 0, 0, 0.589);
+  
+  }
+
+.button:hover{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.589), 0 6px 20px 0 rgba(0, 0, 0, 0.589);
+
+}
+
+.maincomp {
+ background-color: rgba(168, 168, 168, 0.897);
+}

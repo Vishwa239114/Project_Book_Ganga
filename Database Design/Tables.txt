@@ -1,0 +1,136 @@
+1.Login
+CREATE TABLE `gyansagar`.`login` (
+  `userid` INT NOT NULL AUTO_INCREMENT,
+  `password` VARCHAR(45) NOT NULL,
+  `username` VARCHAR(45) NOT NULL,
+  `role` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`userid`));
+---------------------------------------
+2.Category
+CREATE TABLE `gyansagar`.`category` (
+  `category_id` INT NOT NULL AUTO_INCREMENT,
+  `categoryname` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`category_id`),
+  UNIQUE INDEX `categoryname_UNIQUE` (`categoryname` ASC) VISIBLE);
+-----------------------------------
+3.Buyer
+CREATE TABLE `gyansagar`.`buyer` (
+  `buyerid` INT NOT NULL AUTO_INCREMENT,
+  `userid` INT NOT NULL,
+  `buyername` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `buyer_contact` VARCHAR(45) NOT NULL,
+  `aadharno` VARCHAR(45) NOT NULL,
+  `address` VARCHAR(500) NOT NULL,
+  PRIMARY KEY (`buyerid`),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
+  UNIQUE INDEX `aadharno_UNIQUE` (`aadharno` ASC) VISIBLE,
+  UNIQUE INDEX `buyer_contact_UNIQUE` (`buyer_contact` ASC) VISIBLE,
+  INDEX `userid_idx` (`userid` ASC) VISIBLE,
+  CONSTRAINT `userid`
+    FOREIGN KEY (`userid`)
+    REFERENCES `gyansagar`.`login` (`userid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+
+
+---------------------------------------
+4.Seller
+CREATE TABLE `gyansagar`.`seller` (
+  `sellerid` INT NOT NULL AUTO_INCREMENT,
+  `userid` INT NOT NULL,
+  `publication_num` INT NOT NULL,
+  `publication_name` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `seller_contact` VARCHAR(45) NOT NULL,
+  `address` VARCHAR(500) NOT NULL,
+  PRIMARY KEY (`sellerid`),
+  UNIQUE INDEX `publication_num_UNIQUE` (`publication_num` ASC) VISIBLE,
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
+  INDEX `userid_idx` (`userid` ASC) VISIBLE,
+  CONSTRAINT `user_id`
+    FOREIGN KEY (`userid`)
+    REFERENCES `gyansagar`.`login` (`userid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+
+----------------------------------------------
+5.Book
+CREATE TABLE `gyansagar`.`book` (
+  `bookid` INT NOT NULL AUTO_INCREMENT,
+  `ISBN` VARCHAR(45) NOT NULL,
+  `author` VARCHAR(45) NOT NULL,
+  `bookname` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(45) NOT NULL,
+  `price` FLOAT NOT NULL,
+  `category_id` INT NOT NULL,
+  `sellerid` INT NOT NULL,
+  `quantity` INT NOT NULL,
+  PRIMARY KEY (`bookid`),
+  UNIQUE INDEX `ISBN_UNIQUE` (`ISBN` ASC) VISIBLE,
+  INDEX `category_id_idx` (`category_id` ASC) VISIBLE,
+  INDEX `sellerid_idx` (`sellerid` ASC) VISIBLE,
+  CONSTRAINT `category_id`
+    FOREIGN KEY (`category_id`)
+    REFERENCES `gyansagar`.`category` (`category_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `sellerid`
+    FOREIGN KEY (`sellerid`)
+    REFERENCES `gyansagar`.`seller` (`sellerid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+----------------------------------
+6.Feedback
+CREATE TABLE `gyansagar`.`feedback` (
+  `feedbackid` INT NOT NULL AUTO_INCREMENT,
+  `subject` VARCHAR(45) NOT NULL,
+  `feedback_desc` VARCHAR(500) NOT NULL,
+  `userid` INT NOT NULL,
+  PRIMARY KEY (`feedbackid`),
+  INDEX `userid1_idx` (`userid` ASC) VISIBLE,
+  CONSTRAINT `userid1`
+    FOREIGN KEY (`userid`)
+    REFERENCES `gyansagar`.`login` (`userid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+----------------------------------------
+7.order
+CREATE TABLE `gyansagar`.`order` (
+  `orderid` INT NOT NULL AUTO_INCREMENT,
+  `buyerid` INT NOT NULL,
+  `order_date` DATE NOT NULL,
+  `total_price` FLOAT NOT NULL,
+  `deli_address` VARCHAR(500) NOT NULL,
+  PRIMARY KEY (`orderid`),
+  INDEX `buyerid_idx` (`buyerid` ASC) VISIBLE,
+  CONSTRAINT `buyerid`
+    FOREIGN KEY (`buyerid`)
+    REFERENCES `gyansagar`.`buyer` (`buyerid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+------------------------------------
+8.order_details
+CREATE TABLE `gyansagar`.`order_details` (
+  `odid` INT NOT NULL AUTO_INCREMENT,
+  `bookid` INT NOT NULL,
+  `orderid` INT NOT NULL,
+  `order_qty` INT NOT NULL,
+  PRIMARY KEY (`odid`),
+  INDEX `bookid_idx` (`bookid` ASC) VISIBLE,
+  INDEX `orderid_idx` (`orderid` ASC) VISIBLE,
+  CONSTRAINT `bookid`
+    FOREIGN KEY (`bookid`)
+    REFERENCES `gyansagar`.`book` (`bookid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `orderid`
+    FOREIGN KEY (`orderid`)
+    REFERENCES `gyansagar`.`order` (`orderid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+------------------------------------------
+
+

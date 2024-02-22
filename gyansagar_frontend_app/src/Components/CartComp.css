@@ -1,0 +1,22 @@
+
+.resbox:hover{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.712), 0 6px 20px 0 rgba(0, 0, 0, 0.705);
+
+}
+
+.total:hover{
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.712), 0 3px 10px 0 rgba(0, 0, 0, 0.705);
+
+}
+
+.button{
+  align-items: center;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.button:hover{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.712), 0 6px 20px 0 rgba(0, 0, 0, 0.705);
+
+}
